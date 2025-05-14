@@ -49,7 +49,7 @@ suggestions:
 - Suggest approaches to improve code quality.
 
 environments:
-- Use WSL Ubuntu environment.
+- Use git bash to command line.
 - Run tests in Docker containers.
 - Use CMake for builds, cross-compilation, and testing.
 - Use Ceedling, CMock, Google Test, and Google Mock for testing.
