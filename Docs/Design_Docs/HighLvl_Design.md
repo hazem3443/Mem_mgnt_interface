@@ -6,13 +6,19 @@
 flowchart TB
     subgraph Client["Client Applications"]
         CLI["Command Line Interface"]
-        CAPI["C API"]
-        PyAPI["Python Bindings"]
-        DBUS["DBus Interface"]
+        CAPI["client C APIs"]
+        PyAPI["Python sending commands to sdbus or command line execution"]
+    end    subgraph DBUS["DBus Interface Layer"]
+        direction LR
+        CP["Connection Pool"]
+        AQ["Async Queue"]
+        MH["Message Handler"]
+        ER["Error Recovery"]
     end
 
     subgraph CMS["Configuration Management System"]
-        CMI["Configuration Management Interface"]
+
+        CMI["data path fetcher"]
         DSM["Data Structure Manager"]
         MM["Memory Manager"]
         
@@ -35,9 +41,11 @@ flowchart TB
             SM["Schema Manager"]
             MT["Metrics & Monitoring"]
         end
-    end
-
-    Client --> CMI
+    end    Client --> CP
+    CP --> AQ
+    AQ --> MH
+    MH <--> ER
+    MH --> CMI
     CMI --> DSM
     DSM <--> MM
     DSM --> Cache
