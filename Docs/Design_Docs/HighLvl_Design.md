@@ -38,12 +38,10 @@ flowchart TB
         TRANS <==> CFGM
 
         subgraph Memory_Manager
-            direction TB
             DSM["Status Manager"]
             CFGM["Configuration Manager"]
 
             subgraph Core["Core Services"]
-                direction TB
                 TX["Transaction Manager"]
                 EV["Event System"]
                 SM["Schema Manager"]
@@ -52,13 +50,12 @@ flowchart TB
             Core -->DSM
             Core --> CFGM
             subgraph Cache["Cache System"]
-                direction TB
                 L1["L1 Cache (Memory)"]
                 L2["L2 Cache (Mapped Memory)"]
                 L3["L3 Cache (Persistent)"]
             end
             Cache <===> DSM
-            Cache ==/COMMIT/==> CFGM
+            Cache ==COMMIT==> CFGM
 
             subgraph Storage["Storage Layer"]
                 SAL["Storage Abstraction Layer"]
