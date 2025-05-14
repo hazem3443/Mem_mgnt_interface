@@ -4,54 +4,71 @@
 
 ```mermaid
 flowchart TB
-    subgraph Client["Client Applications"]
+    subgraph Client_Applications
+        direction BT
         CLI["Command Line Interface"]
         CAPI["client C APIs"]
         PyAPI["Python sending commands to sdbus or command line execution"]
-    end    subgraph DBUS["DBus Interface Layer"]
+    end 
+    subgraph DBus_Interface_Layer
         direction LR
-        CP["Connection Pool"]
-        AQ["Async Queue"]
-        MH["Message Handler"]
+        CP["Connection Pool"] -->
+        AQ["Async Queue"] -->
+        MH["Message Handler"] <-->
         ER["Error Recovery"]
     end
+    Client_Applications <==> DBus_Interface_Layer
+    MH <--> VAL
+    
 
-    subgraph CMS["Configuration Management System"]
+    subgraph Unified_Configuration_Manager
+        subgraph Checks
+            direction RL
+            VAL["Command Validator"] -->
+            PERM["Permission Check"] -->
+            ROUTE["Command Router"] -->
+            TRANS["Transaction Wrapper"] -->
+            LOG["Command Logger"]
+        end
+        VAL --> LOG
+        PERM --> LOG
+        ROUTE --> LOG
 
-        CMI["data path fetcher"]
-        DSM["Data Structure Manager"]
-        MM["Memory Manager"]
-        
-        subgraph Cache["Cache System"]
-            L1["L1 Cache (Memory)"]
-            L2["L2 Cache (Mapped Memory)"]
-            L3["L3 Cache (Persistent)"]
+        TRANS <==> DSM
+        TRANS <==> CFGM
+
+        subgraph Memory_Manager
+            direction TB
+            DSM["Status Manager"]
+            CFGM["Configuration Manager"]
+
+            subgraph Core["Core Services"]
+                direction TB
+                TX["Transaction Manager"]
+                EV["Event System"]
+                SM["Schema Manager"]
+                MT["Metrics & Monitoring"]
+            end
+            Core -->DSM
+            Core --> CFGM
+            subgraph Cache["Cache System"]
+                direction TB
+                L1["L1 Cache (Memory)"]
+                L2["L2 Cache (Mapped Memory)"]
+                L3["L3 Cache (Persistent)"]
+            end
+            Cache <===> DSM
+            Cache ==/COMMIT/==> CFGM
+
+            subgraph Storage["Storage Layer"]
+                SAL["Storage Abstraction Layer"]
+                MMS["Memory-Mapped Storage (uthash)"]
+                FS["File Storage"]
+                PG["PostgreSQL"]
+            end 
+            Storage <===> CFGM
         end
-        
-        subgraph Storage["Storage Layer"]
-            SAL["Storage Abstraction Layer"]
-            MMS["Memory-Mapped Storage (uthash)"]
-            FS["File Storage"]
-            PG["PostgreSQL"]
-        end
-        
-        subgraph Core["Core Services"]
-            TX["Transaction Manager"]
-            EV["Event System"]
-            SM["Schema Manager"]
-            MT["Metrics & Monitoring"]
-        end
-    end    Client --> CP
-    CP --> AQ
-    AQ --> MH
-    MH <--> ER
-    MH --> CMI
-    CMI --> DSM
-    DSM <--> MM
-    DSM --> Cache
-    Cache --> Storage
-    DSM <--> Core
-    Storage --> Core
+    end
 ```
 
 ## Component Flow Diagrams
