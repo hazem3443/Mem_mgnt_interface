@@ -16,11 +16,11 @@ A high-performance memory management interface with configuration management, ca
 
 ## Architecture
 
-See [HighLvl_Design.md](.github/HighLvl_Design.md) for detailed architecture diagrams.
+See [HighLvl_Design.md](Docs/Design_Docs/HighLvl_Design.md) for detailed architecture diagrams.
 
 ## Requirements
 
-See [APP_Requirements.md](.github/APP_Requirements.md) for detailed requirements and implementation examples.
+See [APP_Requirements.md](Docs/Design_Docs/APP_Requirements.md) for detailed requirements and implementation examples.
 
 ## Getting Started
 
@@ -44,10 +44,10 @@ make test
 
 ## Documentation
 
-- [High Level Design](.github/HighLvl_Design.md)
-- [Application Requirements](.github/APP_Requirements.md)
-- [Configuration Management Design](.github/Config_mgnt_design.prompt.md)
-- [Development History](.github/chat.prompt.md)
+- [High Level Design](Docs/Design_Docs/HighLvl_Design.md)
+- [Application Requirements](Docs/Design_Docs/APP_Requirements.md)
+- [Configuration Management Design](.github/prompts/Config_mgnt_design.prompt.md)
+- [Development History](.github/prompts/chat.prompt.md)
 
 ## License
 
