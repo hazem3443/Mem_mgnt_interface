@@ -2,10 +2,6 @@
 
 ## System Architecture
 
-asdwd
-\(\text{Total cycle time} = 10 \, \text{minutes} = 600 \, \text{seconds} = 600,000 \, \text{ms}\)
-asdww
-
 ```mermaid
 flowchart TB
     subgraph Client_Applications
